@@ -46,10 +46,10 @@ public class LexicalAnalyzer {
 	static Scanner input = new Scanner(System.in);
 	static BufferedReader br;
 	static String syntax = "";
-	static ArrayList<Token> tokens = new ArrayList<Token>();
+	static ArrayList<String> tokens = new ArrayList<String>();
 	static int arrayCounter = 0;
 
-	//Main
+	// Main
 	public static void main(String[] args) {
 		try {
 			br = new BufferedReader(new FileReader("dat.dat"));
@@ -57,7 +57,7 @@ public class LexicalAnalyzer {
 			System.out.println(fnfe.getMessage());
 		}
 		System.out.println("===============================================");
-		//Read and confirm file
+		// Read and confirm file
 		while (true) {
 			System.out.print("Enter a file name: ");
 			file = new File(input.nextLine());
@@ -70,104 +70,205 @@ public class LexicalAnalyzer {
 				break;
 			}
 		}
-		//Readfile call
+		// Readfile call
 		readFile();
-		
+		tokens.remove(tokens.size() - 1);
 		System.out.println(syntax);
-		
-		if(isProgram()) {
-			
+
+		if (isProgram()) {
+			System.out.println("Yups");
 		}
-		
-		
+
 		System.out.println("File read successfully.");
 	}
 
+	// <program> = program begin <statement_list> end
 	public static boolean isProgram() {
-		if(tokens.contains()) {
-			if(tokens[1].token.toLowerCase() == "begin") {
-				if(tokens[tokens.length].token.toLowerCase() == "end") {
+		System.out.println(tokens.get(0));
+		if (tokens.remove(0).equals("program")) {
+			if (tokens.remove(1).equals("begin")) {
+				if (isStatementList()) {
+					if (tokens.remove(tokens.size() - 1).equals("end")) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	// <statement_list> = <statement> {;<statement>}
+	public static boolean isStatementList() {
+		if (isStatement()) {
+			if (tokens.remove(0).equals(";")) {
+				if (isStatement()) {
 					return true;
 				}
 			}
 		}
-		return false;		
-	}
-	public boolean isStatementList() {
 		return false;
 	}
-	public boolean isStatement() {
+
+	// <statement> = <assignment_statement> | <if_statement> | <loop_statement>
+	public static boolean isStatement() {
+		if (isAssignmentStatement() || isIfState() || isLoopState()) {
+			return true;
+		}
 		return false;
-		
 	}
-	public boolean isAssignmentStatement() {
+
+	// <assignment_statement> = <variable> = <expression>
+	public static boolean isAssignmentStatement() {
+		if (isVariable()) {
+			if (tokens.remove(0).equals("=")) {
+				if (isExpression()) {
+					return true;
+				}
+			}
+		}
 		return false;
-		
 	}
-	public boolean isVariable() {
+
+	// <variable> = identifier (An identifier is a string that begins with a letter
+	// followed by 0 or more letters and/or digits)
+	public static boolean isVariable() {
+		if (Character.isAlphabetic(tokens.remove(0).charAt(0))) {
+			return true;
+		}
 		return false;
-		
 	}
-	public boolean isExpression() {
+
+	// <expression> = <term> { (+|-) <term>}
+	public static boolean isExpression() {
+		if (isTerm()) {
+			do {
+				if (!(tokens.remove(0).equals("+") || tokens.remove(0).equals("-"))) {
+					return false;
+				}
+			} while (isTerm());
+			return true;
+		}
 		return false;
-		
 	}
-	public boolean isTerm() {
+
+	// <term> = <factor> {(* | /) <factor> }
+	public static boolean isTerm() {
+		if (isFactor()) {
+			do {
+				if (!(tokens.remove(0).equals("*") || tokens.remove(0).equals("/"))) {
+					return false;
+				}
+			} while (isFactor());
+			return true;
+		}
 		return false;
-		
 	}
-	public boolean isFactor() {
+
+	// <factor> = identifier | int_constant | (<expr>)
+	public static boolean isFactor() {
+		String s = tokens.remove(0);
+		if (s.charAt(0) == '(') {
+			if (isExpression()) {
+				if (tokens.remove(0).equals(")"))
+					return true;
+			}
+			return false;
+		}
+		if (Character.isAlphabetic(s.charAt(0))) {
+			return true;
+		}
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	// <if_statement> = if (<logic_expression>) then <statement>
+	public static boolean isIfState() {
+		if (tokens.remove(0).equals("if")) {
+			if (tokens.remove(0).equals("(")) {
+				if (isLogicExpression()) {
+					if (tokens.remove(0).equals(")")) {
+						if (tokens.remove(0).equals("then")) {
+							if (isStatement()) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
 		return false;
-		
 	}
-	public boolean isIfState() {
+
+	// <logic_expression> = <variable> (< | >) <variable> (Assume that logic
+	// expressions have only less than or greater than operators)
+	public static boolean isLogicExpression() {
+		if (isVariable()) {
+			if (tokens.remove(0).equals("<") || tokens.remove(0).equals(">")) {
+				if (isVariable()) {
+					return true;
+				}
+			}
+		}
 		return false;
-		
 	}
-	public boolean isLogicExpression() {
+
+	// <loop_statement> = loop (<logic_expression>) <statement>
+	public static boolean isLoopState() {
+		if (tokens.remove(0).equals("loop")) {
+			if (tokens.remove(0).equals("(")) {
+				if (isLogicExpression()) {
+					if (tokens.remove(0).equals(")")) {
+						if (isStatement()) {
+							return true;
+						}
+					}
+				}
+			}
+
+		}
 		return false;
-		
 	}
-	public boolean isLoopState() {
-		return false;
-		
-	}
-	
-	
-	
-	public static void readFile(){
+
+	public static void readFile() {
 		getChar();
 		do {
 			lex();
 			try {
-				Thread.sleep(50);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			tokens.add(new Token(lexeme, charClass));
+			tokens.add(lexeme);
 			lexeme = "";
-		} while(nextToken != EOF);
+		} while (nextToken != EOF);
 	}
-	
-		//Append character to lexeme
+
+	// Append character to lexeme
 	public static void addChar() {
-			lexeme += nextChar;
-		}
-	
+		lexeme += nextChar;
+	}
+
 	public static void getChar() {
-			int current;
-			try {
-				//Read character
-				current = br.read();
-			if(current != EOF) {
+		int current;
+		try {
+			// Read character
+			current = br.read();
+			if (current != EOF) {
 				nextChar = (char) current;
-				if(Character.isAlphabetic(nextChar)) charClass = LETTER;
-				else if(Character.isDigit(nextChar)) charClass = DIGIT;
-				else charClass = UNKNOWN;
-			}else {
+				if (Character.isAlphabetic(nextChar))
+					charClass = LETTER;
+				else if (Character.isDigit(nextChar))
+					charClass = DIGIT;
+				else
+					charClass = UNKNOWN;
+			} else {
 				charClass = EOF;
 			}
-			
+
 		} catch (IOException ioe) {
 			System.out.println(ioe.getMessage());
 		}
@@ -204,26 +305,26 @@ public class LexicalAnalyzer {
 		case '/':
 			addChar();
 			nextToken = DIV_OP;
-			break;	
+			break;
 		case '>':
 			addChar();
 			nextToken = GREAT_OP;
-			break;	
+			break;
 		case '<':
 			addChar();
 			nextToken = LESS_OP;
-			break;	
+			break;
 		case '=':
 			addChar();
 			nextToken = ASSN_OP;
-			break;	
+			break;
 		case ';':
 			addChar();
 			nextToken = TERMINAL;
-			break;	
-		
+			break;
+
 		}
-		
+
 	}
 
 	public static void lex() {
@@ -257,11 +358,11 @@ public class LexicalAnalyzer {
 			lookup(nextChar);
 			getChar();
 			break;
-		
+
 		case EOF:
 			nextToken = EOF;
 		}
-		
+
 		System.out.println("Next token is " + nextToken + ", Next lexeme is " + lexeme);
 
 	}

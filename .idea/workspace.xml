@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5b4e6236-4e87-455a-befc-8d46c41627d2" name="Default Changelist" comment="" />
+    <list default="true" id="5b4e6236-4e87-455a-befc-8d46c41627d2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.log" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.jdt.core/externalFilesCache" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.jdt.core/externalFilesCache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/version.ini" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.metadata/version.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.recommenders/caches/identified-project-coordinates.json" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/.recommenders/caches/identified-project-coordinates.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/Programming Assignment/src/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/Programming Assignment/src/LexicalAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COSC3127 Eclipse Workspace/Programming Assignment/src/Token.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +36,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/COSC3127 Eclipse Workspace/Programming Assignment" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -41,13 +60,21 @@
       <screen x="0" y="0" width="1368" height="912" />
     </state>
     <state x="278" y="116" key="#Project_Structure/0.0.1368.912@0.0.1368.912" timestamp="1581361736039" />
+    <state x="141" y="113" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581527138313">
+      <screen x="0" y="0" width="1368" height="912" />
+    </state>
+    <state x="141" y="113" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1368.912@0.0.1368.912" timestamp="1581527138313" />
     <state x="537" y="347" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1581361770761">
       <screen x="0" y="0" width="1368" height="912" />
     </state>
     <state x="537" y="347" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1368.912@0.0.1368.912" timestamp="1581361770761" />
-    <state x="385" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1581361737497">
+    <state x="465" y="212" key="FileChooserDialogImpl" timestamp="1581527207113">
       <screen x="0" y="0" width="1368" height="912" />
     </state>
-    <state x="385" y="282" key="com.intellij.ide.util.TipDialog/0.0.1368.912@0.0.1368.912" timestamp="1581361737497" />
+    <state x="465" y="212" key="FileChooserDialogImpl/0.0.1368.912@0.0.1368.912" timestamp="1581527207113" />
+    <state x="385" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1581527121020">
+      <screen x="0" y="0" width="1368" height="912" />
+    </state>
+    <state x="385" y="282" key="com.intellij.ide.util.TipDialog/0.0.1368.912@0.0.1368.912" timestamp="1581527121020" />
   </component>
 </project>
