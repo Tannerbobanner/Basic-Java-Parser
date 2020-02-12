@@ -1,15 +1,10 @@
- program
+program
 begin
 
-sum1 = var1 + var2;
-sum2 = var3 + var2 * 90 ; 
-sum3 = ( var2 + var1 ) * var3 ;
+total = var1 + var2;
 
-if ( sum1 < sum2 ) then
-     if ( var1 > var2 ) then
-	 var4 = sum2 - sum1 ;
-
-loop ( var1 < var2 )
-      var5 = var4 / 45
+fi (var1 < var2) then
+     if ( var3 > var4) then
+	 var2 = var2 - var1
 
 end

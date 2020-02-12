@@ -12,7 +12,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class LexicalAnalyzer {
+
+//COSC3127
+//Tanner Boyle
+//Dr. Yi Feng
+//February 12th, 2020.
+public class Parser {
 
     // Character Classes
     static final int LETTER = 0;
@@ -40,17 +45,19 @@ public class LexicalAnalyzer {
     static String lexeme = "";
     static char nextChar;
     static int lexLen;
-    static int token;
     static int nextToken;
     static File file;
     static Scanner input = new Scanner(System.in);
     static BufferedReader br;
     static String syntax = "";
-    static ArrayList<String> tokens = new ArrayList<String>();
-    static int arrayCounter = 0;
+    static ArrayList<String> tokenList = new ArrayList<String>();
+
 
     // Main
     public static void main(String[] args) {
+        ArrayList<String> tokens = new ArrayList<String>(); //Initialize local ArrayList for Syntax analyzer
+
+       //---------- Verify File integrity
         try {
             br = new BufferedReader(new FileReader("dat.dat"));
         } catch (FileNotFoundException fnfe) {
@@ -70,23 +77,28 @@ public class LexicalAnalyzer {
                 break;
             }
         }
-        // Readfile call
-        readFile();
+
+
+        //Call lexical analyzer
+        lexicalAnalyzer();
+
+        tokens = tokenList;
         tokens.remove(tokens.size() - 1);
         System.out.println(syntax);
 
-        if (isProgram()) {
-            System.out.println("Yups");
+        try {
+            System.out.println("Program? " + isProgram(tokens));
+        }catch(ParserException pe){
+            System.out.println("Parser exception thrown, not a program, exiting...");
         }
-
         System.out.println("File read successfully.");
     }
 
     // <program> = program begin <statement_list> end
-    public static boolean isProgram() {
+    public static boolean isProgram(ArrayList<String> tokens) {
         if (tokens.remove(0).equals("program")) {
             if (tokens.remove(0).equals("begin")) {
-                if (isStatementList()) {
+                if (isStatementList(tokens)) {
                     if (tokens.remove(tokens.size() - 1).equals("end")) {
                         return true;
                     }
@@ -98,31 +110,31 @@ public class LexicalAnalyzer {
     }
 
     // <statement_list> = <statement> {;<statement>}
-    public static boolean isStatementList() {
-        if (isStatement()) {
+    public static boolean isStatementList(ArrayList<String> tokens) {
+        if (isStatement(tokens)) {
             while(tokens.get(0).equals(";")){
-                if(isStatement());
+                tokens.remove(0);
+                if(isStatement(tokens));
             }
-            return true;
+           if(tokens.get(0).equals("end"))return true;
         }
         System.out.println("Not statement list");
         return false;
     }
 
     // <statement> = <assignment_statement> | <if_statement> | <loop_statement>
-    public static boolean isStatement() {
-        if (isAssignmentStatement() || isIfState() || isLoopState()) {
+    public static boolean isStatement(ArrayList<String> tokens) {
+        if (isAssignmentStatement(tokens) || isIfState(tokens) || isLoopState(tokens)) {
             return true;
         }
-        System.out.println("Not statement");
-        return false;
+        throw new ParserException("Not a statement");
     }
 
     // <assignment_statement> = <variable> = <expression>
-    public static boolean isAssignmentStatement() {
-        if (isVariable()) {
+    public static boolean isAssignmentStatement(ArrayList<String> tokens) {
+        if (isVariable(tokens)) {
             if (tokens.remove(0).equals("=")) {
-                if (isExpression()) {
+                if (isExpression(tokens)) {
                     return true;
                 }
             }
@@ -133,36 +145,38 @@ public class LexicalAnalyzer {
 
     // <variable> = identifier (An identifier is a string that begins with a letter
     // followed by 0 or more letters and/or digits)
-    public static boolean isVariable() {
-        if (Character.isAlphabetic(tokens.remove(0).charAt(0))) {
-            return true;
+    public static boolean isVariable(ArrayList<String> tokens) {
+        if(!(tokens.get(0).equals("if") || tokens.get(0).equals("then") || tokens.get(0).equals("loop"))) {
+            if (Character.isAlphabetic(tokens.get(0).charAt(0))) {
+                tokens.remove(0);
+                return true;
+            }
+            System.out.println("Keyword detected");
         }
         System.out.println("Not variable");
         return false;
     }
 
     // <expression> = <term> { (+|-) <term>}
-    public static boolean isExpression() {
-        if (isTerm()) {
-            do {
-                if (!(tokens.get(0).equals("+") || tokens.get(0).equals("-"))) {
+    public static boolean isExpression(ArrayList<String> tokens) {
+        if (isTerm(tokens)) {
+
+                while(tokens.get(0).equals("+") || tokens.get(0).equals("-")) {
                     tokens.remove(0);
-                    System.out.println("Not + | -");
-                    return false;
+                    if (isTerm(tokens)) ;
                 }
-            } while (isTerm());
-            return true;
+                return true;
         }
         System.out.println("Not expression");
         return false;
     }
 
     // <term> = <factor> {(* | /) <factor> }
-    public static boolean isTerm() {
-        if (isFactor()) {
+    public static boolean isTerm(ArrayList<String> tokens) {
+        if (isFactor(tokens)) {
              while (tokens.get(0).equals("*") || tokens.get(0).equals("/")){
                  tokens.remove(0);
-                if(isFactor());
+                if(isFactor(tokens));
             }
             return true;
         }
@@ -171,10 +185,10 @@ public class LexicalAnalyzer {
     }
 
     // <factor> = identifier | int_constant | (<expr>)
-    public static boolean isFactor() {
+    public static boolean isFactor(ArrayList<String> tokens) {
         String s = tokens.remove(0);
         if (s.charAt(0) == '(') {
-            if (isExpression()) {
+            if (isExpression(tokens)) {
                 if (tokens.remove(0).equals(")"))
                     return true;
             }
@@ -194,13 +208,17 @@ public class LexicalAnalyzer {
     }
 
     // <if_statement> = if (<logic_expression>) then <statement>
-    public static boolean isIfState() {
-        if (tokens.remove(0).equals("if")) {
-            if (tokens.remove(0).equals("(")) {
-                if (isLogicExpression()) {
-                    if (tokens.remove(0).equals(")")) {
-                        if (tokens.remove(0).equals("then")) {
-                            if (isStatement()) {
+    public static boolean isIfState(ArrayList<String> tokens) {
+        if (tokens.get(0).equals("if")) {
+            tokens.remove(0);
+            if (tokens.get(0).equals("(")) {
+                tokens.remove(0);
+                if (isLogicExpression(tokens)) {
+                    if (tokens.get(0).equals(")")) {
+                        tokens.remove(0);
+                        if (tokens.get(0).equals("then")) {
+                            tokens.remove(0);
+                            if (isStatement(tokens)) {
                                 return true;
                             }
                         }
@@ -213,10 +231,11 @@ public class LexicalAnalyzer {
 
     // <logic_expression> = <variable> (< | >) <variable> (Assume that logic
     // expressions have only less than or greater than operators)
-    public static boolean isLogicExpression() {
-        if (isVariable()) {
-            if (tokens.remove(0).equals("<") || tokens.remove(0).equals(">")) {
-                if (isVariable()) {
+    public static boolean isLogicExpression(ArrayList<String> tokens) {
+        if (isVariable(tokens)) {
+            if (tokens.get(0).equals("<") || tokens.get(0).equals(">")) {
+                tokens.remove(0);
+                if (isVariable(tokens)) {
                     return true;
                 }
             }
@@ -225,12 +244,12 @@ public class LexicalAnalyzer {
     }
 
     // <loop_statement> = loop (<logic_expression>) <statement>
-    public static boolean isLoopState() {
+    public static boolean isLoopState(ArrayList<String> tokens) {
         if (tokens.remove(0).equals("loop")) {
             if (tokens.remove(0).equals("(")) {
-                if (isLogicExpression()) {
+                if (isLogicExpression(tokens)) {
                     if (tokens.remove(0).equals(")")) {
-                        if (isStatement()) {
+                        if (isStatement(tokens)) {
                             return true;
                         }
                     }
@@ -241,7 +260,7 @@ public class LexicalAnalyzer {
         return false;
     }
 
-    public static void readFile() {
+    public static void lexicalAnalyzer() {
         getChar();
         do {
             lex();
@@ -250,7 +269,7 @@ public class LexicalAnalyzer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            tokens.add(lexeme);
+            tokenList.add(lexeme);
             lexeme = "";
         } while (nextToken != EOF);
     }
