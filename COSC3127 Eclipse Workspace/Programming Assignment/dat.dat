@@ -1,4 +1,4 @@
-program
+ program
 begin
 
 sum1 = var1 + var2;

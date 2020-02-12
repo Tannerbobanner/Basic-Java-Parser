@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LexicalAnalyzer {
@@ -36,7 +37,7 @@ public class LexicalAnalyzer {
 
 	// Variables
 	static int charClass;
-	static String lexeme;
+	static String lexeme = "";
 	static char nextChar;
 	static int lexLen;
 	static int token;
@@ -44,6 +45,9 @@ public class LexicalAnalyzer {
 	static File file;
 	static Scanner input = new Scanner(System.in);
 	static BufferedReader br;
+	static String syntax = "";
+	static ArrayList<Token> tokens = new ArrayList<Token>();
+	static int arrayCounter = 0;
 
 	//Main
 	public static void main(String[] args) {
@@ -68,9 +72,68 @@ public class LexicalAnalyzer {
 		}
 		//Readfile call
 		readFile();
+		
+		System.out.println(syntax);
+		
+		if(isProgram()) {
+			
+		}
+		
+		
 		System.out.println("File read successfully.");
 	}
 
+	public static boolean isProgram() {
+		if(tokens[0].token.toLowerCase() == "program") {
+			if(tokens[1].token.toLowerCase() == "begin") {
+				if(tokens[tokens.length].token.toLowerCase() == "end") {
+					return true;
+				}
+			}
+		}
+		return false;		
+	}
+	public boolean isStatementList() {
+		return false;
+	}
+	public boolean isStatement() {
+		return false;
+		
+	}
+	public boolean isAssignmentStatement() {
+		return false;
+		
+	}
+	public boolean isVariable() {
+		return false;
+		
+	}
+	public boolean isExpression() {
+		return false;
+		
+	}
+	public boolean isTerm() {
+		return false;
+		
+	}
+	public boolean isFactor() {
+		return false;
+		
+	}
+	public boolean isIfState() {
+		return false;
+		
+	}
+	public boolean isLogicExpression() {
+		return false;
+		
+	}
+	public boolean isLoopState() {
+		return false;
+		
+	}
+	
+	
 	
 	public static void readFile(){
 		getChar();
@@ -81,16 +144,17 @@ public class LexicalAnalyzer {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			tokens.add(new Token(lexeme, charClass));
 			lexeme = "";
 		} while(nextToken != EOF);
 	}
 	
 		//Append character to lexeme
-		public static void addChar() {
+	public static void addChar() {
 			lexeme += nextChar;
 		}
 	
-		public static void getChar() {
+	public static void getChar() {
 			int current;
 			try {
 				//Read character
