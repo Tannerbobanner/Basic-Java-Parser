@@ -8,4 +8,9 @@ public class Token {
 		this.token = token;
 		this.type = type;
 	}
+	
+	@Override
+	public String toString() {
+		return token + " == " + type;
+	}
 }

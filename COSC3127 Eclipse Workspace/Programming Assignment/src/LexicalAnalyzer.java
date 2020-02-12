@@ -84,7 +84,7 @@ public class LexicalAnalyzer {
 	}
 
 	public static boolean isProgram() {
-		if(tokens[0].token.toLowerCase() == "program") {
+		if(tokens.contains()) {
 			if(tokens[1].token.toLowerCase() == "begin") {
 				if(tokens[tokens.length].token.toLowerCase() == "end") {
 					return true;
