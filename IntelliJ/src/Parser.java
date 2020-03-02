@@ -57,7 +57,7 @@ public class Parser {
     public static void main(String[] args) {
         ArrayList<String> tokens = new ArrayList<String>(); //Initialize local ArrayList for Syntax analyzer
 
-       //---------- Verify File integrity
+        //---------- Verify File integrity
         try {
             br = new BufferedReader(new FileReader("dat.dat"));
         } catch (FileNotFoundException fnfe) {
@@ -88,7 +88,7 @@ public class Parser {
 
         try {
             System.out.println("Program? " + isProgram(tokens));
-        }catch(ParserException pe){
+        } catch (ParserException pe) {
             System.out.println("Parser exception thrown, not a program, exiting...");
         }
         System.out.println("File read successfully.");
@@ -112,11 +112,11 @@ public class Parser {
     // <statement_list> = <statement> {;<statement>}
     public static boolean isStatementList(ArrayList<String> tokens) {
         if (isStatement(tokens)) {
-            while(tokens.get(0).equals(";")){
+            while (tokens.get(0).equals(";")) {
                 tokens.remove(0);
-                if(isStatement(tokens));
+                isStatement(tokens);
             }
-           if(tokens.get(0).equals("end"))return true;
+            if (tokens.get(0).equals("end")) return true;
         }
         System.out.println("Not statement list");
         return false;
@@ -146,7 +146,7 @@ public class Parser {
     // <variable> = identifier (An identifier is a string that begins with a letter
     // followed by 0 or more letters and/or digits)
     public static boolean isVariable(ArrayList<String> tokens) {
-        if(!(tokens.get(0).equals("if") || tokens.get(0).equals("then") || tokens.get(0).equals("loop"))) {
+        if (!(tokens.get(0).equals("if") || tokens.get(0).equals("then") || tokens.get(0).equals("loop"))) {
             if (Character.isAlphabetic(tokens.get(0).charAt(0))) {
                 tokens.remove(0);
                 return true;
@@ -160,12 +160,11 @@ public class Parser {
     // <expression> = <term> { (+|-) <term>}
     public static boolean isExpression(ArrayList<String> tokens) {
         if (isTerm(tokens)) {
-
-                while(tokens.get(0).equals("+") || tokens.get(0).equals("-")) {
-                    tokens.remove(0);
-                    if (isTerm(tokens)) ;
-                }
-                return true;
+            while (tokens.get(0).equals("+") || tokens.get(0).equals("-")) {
+                tokens.remove(0);
+                if (isTerm(tokens)) ;
+            }
+            return true;
         }
         System.out.println("Not expression");
         return false;
@@ -174,9 +173,9 @@ public class Parser {
     // <term> = <factor> {(* | /) <factor> }
     public static boolean isTerm(ArrayList<String> tokens) {
         if (isFactor(tokens)) {
-             while (tokens.get(0).equals("*") || tokens.get(0).equals("/")){
-                 tokens.remove(0);
-                if(isFactor(tokens));
+            while (tokens.get(0).equals("*") || tokens.get(0).equals("/")) {
+                tokens.remove(0);
+                if (isFactor(tokens)) ;
             }
             return true;
         }
@@ -195,9 +194,11 @@ public class Parser {
             System.out.println("Not bracketed expression");
             return false;
         }
+
         if (Character.isAlphabetic(s.charAt(0))) {
             return true;
         }
+
         try {
             Integer.parseInt(s);
             return true;
