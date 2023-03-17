@@ -96,16 +96,18 @@ public class Parser {
 
     // <program> = program begin <statement_list> end
     public static boolean isProgram(ArrayList<String> tokens) {
-        if (tokens.remove(0).equals("program")) {
-            if (tokens.remove(0).equals("begin")) {
+        if (tokens.get(0).equals("program")) {
+            tokens.remove(0);
+            if (tokens.get(0).equals("begin")) {
+                tokens.remove(0);
                 if (isStatementList(tokens)) {
-                    if (tokens.remove(tokens.size() - 1).equals("end")) {
+                    if (tokens.get(tokens.size()-1).equals("end")) {
+                        tokens.remove(tokens.size()-1);
                         return true;
                     }
                 }
             }
         }
-        System.out.println("Program");
         return false;
     }
 
@@ -133,7 +135,8 @@ public class Parser {
     // <assignment_statement> = <variable> = <expression>
     public static boolean isAssignmentStatement(ArrayList<String> tokens) {
         if (isVariable(tokens)) {
-            if (tokens.remove(0).equals("=")) {
+            if (tokens.get(0).equals("=")) {
+                tokens.remove(0);
                 if (isExpression(tokens)) {
                     return true;
                 }
@@ -188,7 +191,8 @@ public class Parser {
         String s = tokens.remove(0);
         if (s.charAt(0) == '(') {
             if (isExpression(tokens)) {
-                if (tokens.remove(0).equals(")"))
+                if (tokens.get(0).equals(")"))
+                    tokens.remove(0);
                     return true;
             }
             System.out.println("Not bracketed expression");
@@ -246,10 +250,13 @@ public class Parser {
 
     // <loop_statement> = loop (<logic_expression>) <statement>
     public static boolean isLoopState(ArrayList<String> tokens) {
-        if (tokens.remove(0).equals("loop")) {
-            if (tokens.remove(0).equals("(")) {
+        if (tokens.get(0).equals("loop")) {
+            tokens.remove(0);
+            if (tokens.get(0).equals("(")) {
+                tokens.remove(0);
                 if (isLogicExpression(tokens)) {
-                    if (tokens.remove(0).equals(")")) {
+                    if (tokens.get(0).equals(")")) {
+                        tokens.remove(0);
                         if (isStatement(tokens)) {
                             return true;
                         }
